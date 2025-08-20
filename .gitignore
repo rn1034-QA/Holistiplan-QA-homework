@@ -1,0 +1,34 @@
+# Python
+# Folders created by Python and its tools
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/        # Local virtual environment folder (if you create one at root level)
+venv/       # Common virtual environment folder
+.ipynb_checkpoints # Jupyter Notebook checkpoints
+.mypy_cache/ # Mypy type checker cache
+.pytest_cache/ # Pytest cache folder
+.ruff_cache/ # Ruff linter/formatter cache
+
+# Docker
+# Files/folders related to Docker builds and temporary files
+.dockerignore
+*.log       # General log files
+*.swp       # Vim swap files (can appear anywhere)
+
+# Environment variables
+# Crucial for security - DO NOT commit these!
+.env        # Generic .env file
+.env.local  # Specific local environment file (e.g., in qa_homework/ folder)
+# Explicitly ignore the qa_homework/.env.local file
+qa_homework/.env.local
+
+# Operating System Files
+.DS_Store   # macOS specific files
+.Trashes    # macOS Trash folder
+
+# Editor/IDE specific files
+.vscode/    # VS Code settings (if you don't want to share workspace settings)
+.idea/      # IntelliJ/PyCharm IDE files
