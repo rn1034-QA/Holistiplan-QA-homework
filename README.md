@@ -1,152 +1,93 @@
-Holistiplan Rewards Application - QA Homework
-This repository contains the manual and automated testing documentation for the Holistiplan Rewards Application, along with the Playwright Python automation suite.
+**Holistiplan QA Project**
 
-Project Structure
-.
-├── .gitignore                           <- Files/folders Git should ignore
-├── README.md                           <- This project overview file
-├── manual_testing_documentation.md     <- Report on manual testing findings
-├── automated_testing_documentation.md  <- Report on automated testing results
-└── qa_homework/                        <- The Holistiplan application code
-    ├── docker-compose.yml              <- Docker configuration for the app
-    ├── .env.local                      <- Environment variables for the app
-    ├── pyproject.toml                  <- Pytest configuration for the app
-    ├── test_rewards_app.py             <- Playwright Python automated tests
-    └── ... (other original project files)
+This repository contains automated tests for the Holistiplan Rewards web application, built using Python and Playwright. The application itself runs in Docker containers.
 
-Setup Instructions (First Time)
-Follow these steps to get the Holistiplan Rewards Application and the testing environment set up on your local machine.
+**Getting Started**
 
-1. Prerequisites
-Before you start, ensure you have the following installed:
+Follow these steps to set up the project and run the automated tests locally.
 
-Docker Desktop: Essential for running the Holistiplan application locally. Download from docker.com/products/docker-desktop.
+**Prerequisites**
 
-Python 3.8+: Required for running the automated tests. On macOS, Homebrew is recommended for Python installation.
+Before you begin, ensure you have the following installed on your machine:
+    -Docker Desktop: Essential for running the Holistiplan Rewards application.
+        Download Docker Desktop
+    -Python 3.9+: For running the Playwright tests.
+        Download Python
+    -Git: For cloning this repository.
 
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install python
+**Setup Instructions**
 
-After installing Python, open a new Terminal window to ensure your system's PATH is updated.
-Verify installation: python3 --version and pip3 --version
+1. Clone the Repository:
+Open your Terminal and clone this repository to your local machine:
 
-2. Clone or Download the Project
-Using Git (Recommended):
+git clone https://github.com/rn1034-QA/Holistiplan-QA-homework.git 
+cd Holistiplan-QA-homework
 
-git clone https://github.com/ocrfin/qa_homework.git # Replace with your actual repo URL if different
-
-Then, navigate into the cloned directory (this will be your repository's root):
-
-cd Your_Repo_Name # Replace with the name you gave your GitHub repo
-
-Downloading as ZIP:
-
-Go to your GitHub repository page (e.g., https://github.com/YOUR_USERNAME/YOUR_REPO_NAME).
-
-Click the green Code button and select Download ZIP.
-
-Unzip the downloaded file. This will create a folder (e.g., Your_Repo_Name-main).
-
-Navigate into this folder:
-
-cd path/to/Your_Repo_Name-main
-
-3. Install Playwright and Pytest-Playwright
-These libraries are necessary to execute your automated web tests. Ensure your terminal is in the root of your repository.
-
-pip3 install pytest playwright pytest-playwright Django # Django is needed for test collection
-playwright install
-
-4. Create .env.local File
-The Holistiplan application requires an environment file for its configuration. This file contains sensitive information and is ignored by Git (.gitignore).
-
-Navigate into the qa_homework directory inside your repository's root.
+2. Create ```.env.local``` File:
+The application needs environment variables. Create a file named ```.env.local``` inside the ```qa_homework``` directory.
 
 cd qa_homework
+touch .env.local
 
-Create a new file named .env.local in this qa_homework directory.
+Then, open this newly created ```.env.local``` file in a text editor (like VS Code) and paste the following content:
 
-Add the following content to .env.local:
-
-# The Django secret key is used for cryptographic signing.
-# It's crucial for security; do NOT share this or commit to public repositories.
-SECRET_KEY=a_very_secret_key_that_you_should_change_for_production_if_this_were_a_real_app
-
-# Set Django's debug mode. 'True' for development, 'False' for production.
+```SECRET_KEY=a_very_secret_key_that_you_should_change_for_production_if_this_were_a_real_app
 DJANGO_DEBUG=True
-
-# Allowed hosts for Django. '*' allows all hosts; for production, list specific domains.
 DJANGO_ALLOWED_HOSTS=*
-
-# Database configuration for PostgreSQL
 POSTGRES_DB=holistiplan_db
 POSTGRES_USER=holistiplan_user
 POSTGRES_PASSWORD=holistiplan_password
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
-
-# Email configuration for MailHog (for development email testing)
 EMAIL_HOST=mailhog
 EMAIL_PORT=1025
 DEFAULT_FROM_EMAIL=webmaster@localhost
+```
 
-Save the .env.local file.
+Save the file.
 
-Go back to your repository root in the terminal:
+3. Start the Holistiplan Application with Docker Compose:
+Ensure Docker Desktop is running. In your Terminal (still in the qa_homework directory):
 
-cd ..
+```docker-compose -f local.yml up --build -d```
 
-5. Configure pyproject.toml for Pytest
-The original pyproject.toml within the qa_homework folder might contain arguments that conflict with Playwright's testing setup.
+Allow a minute or two for all services to start up. You can check their status:
 
-Open qa_homework/pyproject.toml in your code editor.
+```docker-compose ps```
 
-Ensure the [tool.pytest.ini_options] section looks like this (remove or comment out any addopts lines):
+All services (django, db, mailhog) should show Up.
 
-[tool.pytest.ini_options]
-minversion = "6.0"
-python_files = [
-    "test_*.py",
-    "tests.py",
-]
-# No 'addopts' line here
+4. Install Python Dependencies:
+While still in the qa_homework directory, install the necessary Python libraries for testing:
 
-Save the pyproject.toml file.
+```pip3 install -r requirements/local.txt```
 
-6. Place Automated Test Code
-Ensure your test_rewards_app.py file is located directly inside the qa_homework directory (alongside docker-compose.yml). The code for test_rewards_app.py is part of your QA homework deliverables.
+5. Install Playwright Browsers:
+This downloads the browsers (Chromium, Firefox, WebKit) that Playwright uses for testing:
 
-Running the Application and Tests 🚀
-1. Start the Holistiplan Application (using Docker Compose)
-Navigate to the qa_homework directory in your terminal and run:
+```playwright install```
 
-docker-compose -f local.yml up --build -d
+**Running Automated Tests**
+Once the Holistiplan application is running in Docker and all Python/Playwright dependencies are installed, you can execute the tests.
 
-This command builds (if necessary) and starts the Django app, database, and MailHog services in the background.
+1. Verify Application is Accessible:
+Open your web browser and navigate to http://localhost:8000. Confirm that you see the Holistiplan Rewards login page or homepage. If you encounter any connection errors here, resolve them before running tests.
 
-Allow a few minutes for the first-time build and startup.
+2. Run the Tests:
+In your Terminal (still in the qa_homework directory):
 
-You can check if services are running with docker-compose ps.
+```python3 -m pytest test_rewards_2.py```
 
-Access the application in your browser at http://localhost:8000. Confirm it loads correctly before proceeding.
+The tests will run in a browser, and the results will be displayed in your terminal.
 
-2. Run the Automated Tests
-With the application running and your terminal still in the qa_homework directory:
+Common Troubleshooting Tips
+net::ERR_EMPTY_RESPONSE or Connection Errors: This almost always means the Docker application is not fully running or accessible. Re-run docker-compose -f local.yml up --build -d, wait, and then check docker-compose ps and http://localhost:8000 in your browser.
 
-pytest test_rewards_app.py
+Locator expected to be visible or TimeoutError:
 
-This will execute the Playwright tests defined in test_rewards_app.py.
+Ensure your Docker app is fully loaded and responsive.
 
-Tests will launch a browser, perform actions, and assert outcomes.
+The element might not be present, its text/selector might be slightly different, or it's hidden. Use Playwright's --headed mode (python3 -m pytest test_rewards_2.py --headed) to visually debug.
 
-Results (PASS/FAIL/ERROR/SKIPPED) will be displayed in your terminal.
+ModuleNotFoundError: No module named 'django': Ensure you are running pytest from the qa_homework directory, and that you have Django installed in your local Python environment (pip3 install Django).
 
-Stopping the Application
-To stop the Docker containers when you're done:
-
-docker-compose down
-
-Documentation Links
-Manual Testing Documentation
-
-[Automated Testing Documentation
