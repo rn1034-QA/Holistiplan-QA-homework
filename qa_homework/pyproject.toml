@@ -1,0 +1,7 @@
+    # ==== pytest ====
+    [tool.pytest.ini_options]
+    minversion = "6.0"
+    python_files = [
+        "test_*.py",
+        "tests.py", # Ensure tests.py is also covered if you use it later
+    ]

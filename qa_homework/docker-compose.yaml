@@ -1,0 +1,40 @@
+# No 'version' attribute needed here as it's obsolete and can cause issues.
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    image: holistiplan/django
+    container_name: holistiplan_django
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env.local
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+      - mailhog
+
+  db:
+    image: postgres:13-alpine
+    container_name: holistiplan_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - holistiplan_db_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env.local
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: holistiplan_mailhog
+    ports:
+      - "8025:8025" # Web UI
+      - "1025:1025" # SMTP server
+
+volumes:
+  holistiplan_db_data:
+
