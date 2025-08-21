@@ -1,6 +1,6 @@
 **Holistiplan QA Project**
 
-This repository contains automated tests for the Holistiplan Rewards web application, built using Python and Playwright. The application itself runs in Docker containers.
+This repository contains automated tests for the Holistiplan Rewards web application, built using Python and Playwright. The application itself runs in Docker containers.You will also find a list of a few defects found during testing. 
 
 **Getting Started**
 
